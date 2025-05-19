@@ -49,12 +49,14 @@ def do_something_with_response(callback_context: CallbackContext, llm_response: 
 get_nearest_hospitals_agent = Agent(
     model='gemini-2.0-flash-exp',
     name='GetNearestHospitalsAgent',
+    description="Get the nearest hospital based on the user's location",
     tools=[google_search]
 )
 
 contact_and_location_agent = Agent(
     model='gemini-2.0-flash-exp',
     name='ContactNearestHospitalsAndGetLocationAgent',
+    description="Contact the nearest hospital and get the user's location.",
     tools=[get_current_location_tool, contact_ambulance_tool]
 )
     
@@ -65,6 +67,7 @@ root_agent = Agent(
     instruction=f"""
             You are an assistant that coordinates local ambulance dispatch in Iloilo City, Philippines. 
             You need to get the nature of the accident (use `get_current_location_tool` to get the user's location. Don't ask for it).
+            You have to verify the ambulance request if it is valid enough for an emergency. Use `google_search` for that.
             After receiving the user's location via `get_current_location()`, call an ambulance. 
             Give the location of the ambulance and ETA. 
             For the purpose of this demo, dispatch is random and will only be approved 50% of the time.
