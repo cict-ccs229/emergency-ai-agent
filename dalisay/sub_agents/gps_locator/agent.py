@@ -3,11 +3,11 @@ from google.adk.agents import Agent
 
 from . import prompt
 
-def get_current_location_tool(location: str = None) -> dict:
+def get_current_location_tool(location: str = 'me') -> dict:
   if location:
     g = geocoder.google(location)
   else:
-    g = geocoder.ip('me')
+    g = geocoder.ip(location)
   
   if g.ok:
       return { 'status': 'success', 'result': { 'latlong': g.latlng, 'city': g.city, 'country': g.country, 'address': g.address } }
