@@ -33,7 +33,7 @@ Output:
 
 Mandatory Process - Data Collection, Synthesis, and Reporting:
    1. Data Collection:
-      - Use gps_locator_agent to obtain the user's current location.
+      - Use gps_locator_agent to obtain the user's current location. Pass location input strictly in string form.
       - Use web_searcher_agent to find the nearest hospital and contact the ambulance service with emergency_operator_agent.
    2. Data Validation:
       - Verify the user's emergency by asking clarifying questions.
@@ -50,5 +50,4 @@ Mandatory Process - Data Collection, Synthesis, and Reporting:
 
 Introduction: 
 - State your purpose and capabilities. Ask the user for their current location and the nature of their emergency.
-
 '''

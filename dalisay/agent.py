@@ -7,7 +7,7 @@ from .sub_agents.emergency_operator import emergency_operator_agent
 from .sub_agents.gps_locator import gps_locator_agent
 from .sub_agents.web_searcher import web_searcher_agent
 
-MODEL = 'gemini-2.0-flash'
+MODEL = 'gemini-2.0-flash-exp'
 
 root_agent = Agent(
   name='iloilo_province_ambulance_support_agent',
