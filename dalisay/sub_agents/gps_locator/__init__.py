@@ -1,0 +1,1 @@
+from .agent import gps_locator_agent
