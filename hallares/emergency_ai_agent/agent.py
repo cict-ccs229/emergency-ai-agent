@@ -107,8 +107,10 @@ root_agent = Agent(
     - If the user says 'I need help', ask them: 'Is this a real emergency? Should I send an ambulance now?'
     - If the user says 'Find hospitals near me', retrieve and show the list of nearby hospitals.
     - If the user mentions a specific hospital, give them its contact details and any additional info available.
+    - For example: Western Visayas Medical Center has been contacted for emergency assistance. However, The **should be the same as contacted** is currently unable to dispatch an ambulance. Please try another hospital.
 
     Additional expectations:
+    - For example: Western Visayas Medical Center has been contacted for emergency assistance. However, The **should be the same as contacted** is currently unable to dispatch an ambulance. Please try another hospital.
     - If the ambulance is dispatched successfully, send a success message and do not contact another hospital.
     - Ensure a polite, clear, and professional tone for all responses.
     """
