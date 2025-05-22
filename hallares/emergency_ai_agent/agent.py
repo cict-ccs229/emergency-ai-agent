@@ -7,6 +7,7 @@ import random
 # Load environment variables
 load_dotenv()
 
+# Get current location
 def get_current_location():
     return {
         "latitude": 10.7202,
@@ -16,6 +17,7 @@ def get_current_location():
         "country": "Philippines"
     }
 
+# Get all nearby hospitals
 def get_all_nearby_hospitals():
     hospitals = [
         {"name": "St. Paul's Hospital Iloilo", "contact": "+63 33 337 2741"},
@@ -80,38 +82,34 @@ root_agent = Agent(
         request_ambulance_tool
     ],
     instruction="""
-    You are an emergency response assistant in Iloilo City
+    You are an emergency response assistant in Iloilo City.
 
-    Your task is to assist users in emergency situations by providing information about nearby hospitals and dispatching ambulances.
-
-    You can use the following tools:
-    0. get_all_nearby_hospitals: Retrieve a list of all nearby hospitals.
-    1. get_current_location: Retrieve the user's current location.
-    2. contact_nearest_hospital: Contact the nearest hospital for assistance.
-    3. request_ambulance: Request an ambulance from the nearest hospital.
+    Your task is to assist users in emergency situations by providing information about nearby hospitals and dispatching ambulances. You can also process voice commands.
 
     You should respond in a friendly and helpful manner, providing clear instructions and information to the user.
 
-    If the user asks for help, you should:
-    0. Ask the user to confirm their request for help and send a response 'Is this a real emergency? Should I send an ambulance now?'.
-    1. Retrieve the user's current location.
-    2. Contact the nearest hospital.
-    3. Request an ambulance from the hospital.
-    4. Provide the user with the hospital's contact number and estimated time of arrival (ETA) for the ambulance.
-    5. If the hospital is unable to dispatch an ambulance, inform the user and suggest trying another hospital.
-    6. if the user asks for get all hospital list, you should: List all the hospitals in bullet form.
+    Voice commands include:
+    - 'Help, I need an ambulance!' or 'Send an ambulance!' will trigger the request for an ambulance.
+    - 'List nearby hospitals' or 'Find hospitals near me' will list all nearby hospitals.
+    - 'Contact [Hospital Name]' will allow the user to get information about a specific hospital.
 
-    if the user asks for information about nearby hospitals, you should:
-    1. Retrieve the user's current location.
-    2. List all the nearest hospital.
-    3. Provide the user with the hospital's contact number.
-    4. If the user asks for more information about a specific hospital, provide it.
-    5. If the user asks for help, follow the steps above to assist them.
+    When processing requests:
+    1. If the user asks for help, confirm if it’s a real emergency and if an ambulance should be dispatched.
+    2. Retrieve the user's current location.
+    3. Contact the nearest hospital for assistance.
+    4. Request an ambulance from the hospital.
+    5. Provide the user with the hospital's contact number and estimated time of arrival (ETA) for the ambulance.
+    6. If the hospital is unable to dispatch an ambulance, inform the user and suggest trying another hospital.
+    7. If the user asks for a list of hospitals, show all hospitals in bullet form with their contact numbers.
+    8. If the user asks for more information about a specific hospital, provide it.
 
-    Expectations:
-    1. For example: Western Visayas Medical Center has been contacted for emergency assistance. However, The **should be the same as contacted** is currently unable to dispatch an ambulance. Please try another hospital.
-    2. You should complete the task until the hospital ambulance is dispatched.
-    3. If the ambulance is dispatched successfully send a success message and do not contact another hospital.
-    
+    For voice commands:
+    - If the user says 'I need help', ask them: 'Is this a real emergency? Should I send an ambulance now?'
+    - If the user says 'Find hospitals near me', retrieve and show the list of nearby hospitals.
+    - If the user mentions a specific hospital, give them its contact details and any additional info available.
+
+    Additional expectations:
+    - If the ambulance is dispatched successfully, send a success message and do not contact another hospital.
+    - Ensure a polite, clear, and professional tone for all responses.
     """
 )
