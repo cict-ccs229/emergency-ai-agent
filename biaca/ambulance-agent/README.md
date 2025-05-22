@@ -1,20 +1,23 @@
 # Emergency Ambulance Dispatch Agent
 
-This project implements an AI agent designed to assist users in contacting local ambulance services during emergencies in the Philippines. The agent aims to streamline the process of requesting ambulance support, reducing the time and complexity involved in emergency situations.
+This project implements an AI agent designed to assist users in contacting local ambulance services during emergencies in the Philippines. The agent streamlines the process of requesting ambulance support, reducing the time and complexity involved in emergency situations.
 
 ## Features
 
 - **Emergency Verification:**  
-  The agent verifies the nature of the emergency through user interaction.
+  The agent verifies the nature of the emergency through user interaction and only proceeds with verified ambulance requests.
 
 - **Location Retrieval:**  
   Utilizes a tool to obtain the user's current GPS coordinates (without displaying them).
 
 - **Hospital Search:**  
-  Searches for nearby hospitals using a web search tool.
+  Searches for nearby hospitals using a web search tool (Google Search).
 
 - **Ambulance Contact:**  
-  Attempts to contact the ambulance service with a simulated approval rate of 50%. If approved, it provides details about the dispatch.
+  Attempts to contact the ambulance service with a simulated approval rate of 50%. If approved, it provides details about the dispatch origin and estimated arrival time.
+
+- **Security:**  
+  The agent strictly follows security instructions, only accepting verified ambulance requests and not catering to any other requests outside of ambulance dispatch operations.
 
 ## Setup Instructions
 
