@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency AI Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Emergency AI Agent</h1>
+        <div id="emergency-form">
+            <textarea id="emergency-description" placeholder="Describe your emergency..."></textarea>
+            <button id="request-help" onclick="requestHelp()">Request Emergency Help</button>
+        </div>
+        <div id="status-container" style="display: none;">
+            <h2>Emergency Status</h2>
+            <div id="location-status"></div>
+            <div id="ambulance-status"></div>
+            <div id="hospitals-list"></div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html> 
