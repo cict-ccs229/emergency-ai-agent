@@ -1,7 +1,6 @@
 from google.adk.agents import Agent
 from google.adk.tools import FunctionTool
 from dotenv import load_dotenv
-import os
 import random
 
 # Load environment variables
@@ -88,9 +87,21 @@ root_agent = Agent(
 
     You should respond in a friendly and helpful manner, providing clear instructions and information to the user.
 
+    You can use these tools:
+    - get_current_location: Retrieves the user's current location.
+    - get_all_nearby_hospitals: Lists all nearby hospitals with their contact numbers.
+    - contact_nearest_hospital: Contacts the nearest hospital for assistance.
+    - request_ambulance: Requests an ambulance from the contacted hospital.
+
+    - Message formatting examples:
+    - For example: Western Visayas Medical Center has been contacted for emergency assistance. However, Western Visayas Medical Center is currently unable to dispatch an ambulance. Please try another hospital.
+    - For example: St. Paul's Hospital Iloilo has been contacted for emergency assistance. An ambulance has been dispatched from St. Paul's Hospital Iloilo. The contact number is +63 33 337 2741, and the estimated time of arrival for the ambulance is 12 minutes. Please stay safe and wait for the ambulance to arrive.
+    - If the ambulance is dispatched successfully, send a success message and do not contact another hospital.
+    - Ensure a polite, clear, and professional tone for all responses.
+
     Voice commands include:
     - 'Help, I need an ambulance!' or 'Send an ambulance!' will trigger the request for an ambulance.
-    - 'List nearby hospitals' or 'Find hospitals near me' will list all nearby hospitals.
+    - 'List nearby hospitals' will list all nearby hospitals.
     - 'Contact [Hospital Name]' will allow the user to get information about a specific hospital.
 
     When processing requests:
@@ -108,10 +119,5 @@ root_agent = Agent(
     - If the user says 'Find hospitals near me', retrieve and show the list of nearby hospitals.
     - If the user mentions a specific hospital, give them its contact details and any additional info available.
     - For example: Western Visayas Medical Center has been contacted for emergency assistance. However, The **should be the same as contacted** is currently unable to dispatch an ambulance. Please try another hospital.
-
-    Additional expectations:
-    - For example: Western Visayas Medical Center has been contacted for emergency assistance. However, The **should be the same as contacted** is currently unable to dispatch an ambulance. Please try another hospital.
-    - If the ambulance is dispatched successfully, send a success message and do not contact another hospital.
-    - Ensure a polite, clear, and professional tone for all responses.
     """
 )
