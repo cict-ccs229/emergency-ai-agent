@@ -85,8 +85,7 @@ class ContactAmbulanceTool(BaseTool):
             emergency_state["ambulance_contacted"] = True
             emergency_state["ambulance_eta"] = eta_minutes
             return {
-                "message": f"Ambulance from {hospital} dispatched. Estimated arrival: {eta_minutes} minutes.",
-                "follow_up": "What injury has been sustained?"
+                "message": f"Ambulance from {hospital} dispatched. Estimated arrival: {eta_minutes} minutes."
             }
         else:
             return {
