@@ -32,7 +32,7 @@ Video Demo: https://drive.google.com/drive/folders/1UwQgmwK8QrdHTuWDxgc3a3TVlj_F
 ## Requirements
 
 - Python 3.8+
-- Packages: `requests`, `pyttsx3`, `asyncio`
+- Packages stated in the requirements.txt
 - Internet connection for IP geolocation and API calls.
 
 ---
@@ -40,10 +40,7 @@ Video Demo: https://drive.google.com/drive/folders/1UwQgmwK8QrdHTuWDxgc3a3TVlj_F
 ## Setup and Running
 
 1. Clone or download the repository.
-2. Install required packages:
-
-   ```bash
-   pip install requests pyttsx3
+2. Install required packages in requirements.txt
 
 ## Interact with the agent via the console input. Type emergency-related commands like:
 
