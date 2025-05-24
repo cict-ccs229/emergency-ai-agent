@@ -113,52 +113,94 @@ first_aid_search_tool = FirstAidSearchTool(
     description="Searches what to do while waiting for the ambulance based on an injury keyword."
 )
 
+# === Tool 6: Track Ambulance Tool  ===
+
+class TrackAmbulanceTool(BaseTool):
+    def call(self, **kwargs) -> Dict[str, Any]:
+        if not emergency_state["ambulance_contacted"]:
+            return {"message": "No ambulance has been dispatched yet."}
+
+        if emergency_state["ambulance_eta"] is None:
+            return {"message": "ETA not available."}
+
+        # Simulate ETA countdown
+        if emergency_state["ambulance_eta"] > 0:
+            emergency_state["ambulance_eta"] -= random.randint(1, 3)
+            if emergency_state["ambulance_eta"] < 0:
+                emergency_state["ambulance_eta"] = 0
+
+        if emergency_state["ambulance_eta"] == 0:
+            return {"message": "Ambulance has arrived at your location."}
+        else:
+            return {"message": f"Ambulance ETA: {emergency_state['ambulance_eta']} minutes."}
+
+track_ambulance_tool = TrackAmbulanceTool(
+    name="track_ambulance",
+    description="Tracks the ambulance's estimated arrival time and provides ETA updates."
+)
+# === Tool 7: Find Alternative Transport ===
+
+class FindAlternativeTransportTool(BaseTool):
+    def call(self, location_query: Optional[str] = None) -> Dict[str, Any]:
+        alternatives = {
+            "arevalo": ["Arevalo Tricycle Association Hotline: 0917-000-0001"],
+            "molo": ["Molo Taxi Dispatch: (033) 335-6789"],
+            "jaro": ["Jaro Emergency Center: (033) 320-3333"],
+            "la paz": ["La Paz Barangay Health Center: (033) 337-1111"]
+        }
+
+        if not location_query:
+            return {"error": "Location not provided for alternative transport search."}
+
+        options = alternatives.get(location_query.strip().lower())
+        if options:
+            return {"alternatives": options}
+        else:
+            return {"message": "No alternative transport options found for the given area."}
+
+find_alternative_transport_tool = FindAlternativeTransportTool(
+    name="find_alternative_transport",
+    description="Provides alternative transport or emergency options if no ambulance is available."
+)
+
+# === Tool 8: Get Emergency Hotlines ===
+
+class GetEmergencyHotlinesTool(BaseTool):
+    def call(self, **kwargs) -> Dict[str, Any]:
+        hotlines = {
+            "PNP": "117 / (033) 337-1550",
+            "BFP": "(033) 337-0999",
+            "WVSU Medical Center": "(033) 320-0889",
+            "Red Cross": "(033) 337-8175",
+            "Iloilo Ambulance Service": "(033) 335-0451"
+        }
+        return {"hotlines": hotlines}
+
+get_emergency_hotlines_tool = GetEmergencyHotlinesTool(
+    name="get_emergency_hotlines",
+    description="Provides important emergency hotlines for Iloilo City."
+)
+
+# === Load AI instructions ===
+with open("ambulance_ai-agent/instructions.txt", "r") as f:
+    emergency_agent_instruction = f.read()
+
 # === Root Agent Definition ===
 root_agent = Agent(
         name="iloilo_emergency_ai",
         model="gemini-2.0-flash-exp",
         description="Main AI agent for handling ambulance dispatch in Iloilo.",
         tools=[
+            
             confirm_emergency_tool,
             get_current_location_tool,
             find_nearby_hospitals_tool,
             contact_ambulance_tool,
             first_aid_search_tool,
+            track_ambulance_tool,
+            find_alternative_transport_tool,
+            get_emergency_hotlines_tool,
             google_search
         ],
-        instruction="""
-    You are the Iloilo Emergency AI Assistant. Voice input and output are enabled by default via ADK Web. Expect users to speak naturally or type.
-
-    Only respond to medical emergencies in Iloilo City.
-
-    **STRICT RULES:**
-    - Do NOT include or mention coordinates (latitude/longitude). Refer only to area names or addresses.
-    - Do NOT answer unrelated requests (e.g., tech help, weather, jokes).
-
-    **FLOW:**
-    1. Start by calling `confirm_emergency(description: str)`.
-    2. Wait for user to say 'yes' before continuing (use `memory.awaiting_confirmation = True`).
-    3. If location is unknown, call `get_current_location()` (address only).
-    4. Call `find_nearby_hospitals(location_query: str)` using the area.
-    5. Call `contact_ambulance(hospital: str)` to dispatch ambulance and get ETA.
-    6. After user states the injury, call `first_aid_search(injury: str)` to provide safety tips.
-
-    **EXAMPLES:**
-    User: "There's been a car crash in Molo."
-    → confirm_emergency("Car crash in Molo")
-    → (wait for 'yes')
-    → find_nearby_hospitals("Molo")
-    → contact_ambulance("Medical City Iloilo")
-    → Respond with ETA + injury prompt
-
-    User: "Help! I need an ambulance!"
-    → confirm_emergency("User requesting emergency assistance")
-    → (wait for 'yes')
-    → get_current_location()
-    → find_nearby_hospitals("Arevalo")
-    → contact_ambulance(hospital)
-    → Respond with ETA + injury prompt
-
-    Always stay calm, clear, and brief. The user may be under stress.
-    """
+        instruction=emergency_agent_instruction,
     )
