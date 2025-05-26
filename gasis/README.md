@@ -1,132 +1,81 @@
-# Emergency Ambulance Dispatch Agent
+# 🚨 Philippines Emergency Dispatch AI
 
-This project simulates an emergency ambulance dispatch system using a conversational Python agent. The agent confirms accidents, retrieves the user's location (without displaying coordinates), and iterates through nearby hospitals until an ambulance dispatch is approved. If no dispatch is approved, a fallback message is shown with a contact number.
+This project is an AI-powered emergency response system built using the **Google AI Development Kit (ADK)**. It simulates real-time assistance for users in the Philippines — helping them confirm emergencies, detect panic, find nearby hospitals, and attempt ambulance dispatch.
 
-**▶️ [Watch a video explanation here](https://youtu.be/Og8WAvAxcmk)**
-
----
-
-## Features
-
-- **Accident Confirmation:**  
-  The agent first asks the user to confirm whether an accident has occurred before proceeding.
-
-- **Location Retrieval:**  
-  Uses a mock tool (`GetCurrentLocationTool`) to retrieve the user's GPS coordinates (not shown to the user).
-
-- **Hospital Search & Dispatch:**  
-  - Uses a `google_search` tool to obtain nearby hospitals.
-  - Attempts to dispatch an ambulance via the `ContactAmbulanceTool` (50% simulated approval rate).
-  - If denied, prompts the user to try the next hospital.
-  - If approved, outputs the hospital name and estimated arrival time.
-  - If no hospital approves, provides a fallback message with a contact number.
-
-- **Conversational Agent:**  
-  The agent can also respond to chat requests for ambulance dispatch.
+> 🎥 Video Explanation:  
+> 🏥 Target area: **Iloilo City, Philippines**  
+> ⚙️ Built with: `Python`, `Google ADK`, `dotenv`, `custom tools`
 
 ---
 
-## Setup
+## 📌 Features
 
-### Prerequisites
+- 🧠 **Panic Detection & Emotional Support**  
+  Detects panic-related phrases and responds with calming messages.
 
-1. **Python Installation**
-   - Install Python 3.8 or later (Python 3.12 recommended).
-   - [Download Python here](https://www.python.org/downloads/).
+- 📍 **Smart Location Retrieval**  
+  Gets the user’s district (via mock GPS or manual input).
 
-2. **Gemini API Key**
-   - Go to [Google AI Studio](https://aistudio.google.com/app/apikey).
-   - Sign in with your Google account.
-   - Create and copy your Gemini API key.
+- 🏥 **Hospital Lookup**  
+  Matches nearby hospitals from a predefined Iloilo hospital database or performs a Google search if no match is found.
 
-3. **Project Files**
-   - Clone this repository or download the project files to your local machine.
-
-4. **Environment Variables**
-   - In the project directory, create a `.env` file with the following content:
-     ```
-     GOOGLE_GENAI_USE_VERTEXAI=FALSE
-     GOOGLE_GENAI_USE_GEMINI=TRUE
-     GOOGLE_API_KEY=YOUR_GEMINI_API_KEY_HERE
-     ```
-     Replace `YOUR_GEMINI_API_KEY_HERE` with your actual Gemini API key.
-
-5. **Install Dependencies**
-   - Open a terminal in the project directory and run:
-     ```bash
-     pip install -r requirements.txt
-     ```
+- 🚑 **Ambulance Dispatch Simulation**  
+  Attempts to contact ambulances based on urgency and hospital availability. Fallback numbers (e.g. 143, 911) are provided when needed.
 
 ---
 
-### Agent Development Kit (ADK) Setup
+## 🛠️ Tools Defined
 
-1. **(Recommended) Create a virtual environment:**
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
+### 1. `EmergencyVerificationTool`
+- Detects panic using keywords like `help`, `can't breathe`, etc.
+- Confirms emergency if no panic is detected.
 
-2. **Install the Agent Development Kit and dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 2. `GetCurrentLocationTool`
+- Retrieves location via:
+  - Manual input
+  - Mock GPS (e.g. “Jaro District, Iloilo City”)
 
-3. **Verify the ADK installation:**
-   ```bash
-   adk --help
-   ```
+### 3. `FindNearbyHospitalsTool`
+- Searches Iloilo hospitals by district.
+- Falls back to Google Search for unmatched locations.
 
-4. **Set up your `.env` file** as described above.
-
-5. **Run the agent:**
-   ```bash
-   adk web
-   ```
-
-> **Note:** You do **not** need to set up Vertex AI or a Google Cloud project for Gemini API key usage.
+### 4. `ContactAmbulanceTool`
+- Simulates ambulance availability.
+- Prioritizes critical emergencies (e.g. cardiac, accident).
+- Retries or suggests emergency hotlines after 3 failed attempts.
 
 ---
 
-## Usage
+## 🧠 Agent Configuration
 
-1. **Run the agent:**
-   ```bash
-   adk web
-   ```
+```python
+Agent(
+  name="philippines_emergency_ai",
+  model="gemini-2.0-flash-exp",
+  description="Emergency AI for ambulance dispatch and assistance in the Philippines.",
+  tools=[confirm_emergency_tool, get_current_location_tool, find_nearby_hospitals_tool, contact_ambulance_tool],
+  instruction="""
+    You are an emergency response AI for the Philippines.
 
-2. **Follow the prompts:**
-   - Confirm whether the accident has occurred.
-   - The agent will retrieve your location (coordinates are not shown).
-   - The system will search for nearby hospitals and attempt to dispatch an ambulance.
-   - If denied, you will be prompted to try another hospital.
-   - If no hospital approves, a fallback message is shown with a contact number.
+    CONTEXT:
+    - No centralized EMS
+    - People panic and struggle to communicate
+    - Social media sometimes used for emergency help
 
----
+    RULES:
+    1. Handle medical emergencies in the Philippines
+    2. Speak calmly and clearly
+    3. Detect panic and respond accordingly
+    4. Guide step-by-step
+    5. Provide backup numbers when needed
 
-## Project Structure
-
-- **agent.py:**  
-  Main logic for accident confirmation, location retrieval, hospital search, and ambulance dispatch attempts.
-
-- **ambulance_tools.py:**  
-  - `GetCurrentLocationTool`: Mocks retrieval of the user’s GPS coordinates.
-  - `ContactAmbulanceTool`: Mocks contacting the ambulance service with a simulated approval.
-
-- **requirements.txt:**  
-  Lists all Python packages required to run the project.
-
----
-
-## Notes
-
-- This is a mock simulation; no real ambulance service is contacted.
-- The `google_search` tool is expected to return a list of hospital names.
-- The agent uses the Gemini API via your API key from Google AI Studio.
-- **No Vertex AI or Google Cloud project setup is required.**
-
----
-
-## Contact
-
-For more information or assistance, please contact the project maintainer.
+    FLOW:
+    1. Confirm emergency with speech
+    2. Calm user if panicking
+    3. Get user location
+    4. Find nearest hospital
+    5. Try contacting ambulance (50% success)
+    6. Retry or suggest alternative numbers
+    7. Offer first aid advice while waiting
+"""
+)
