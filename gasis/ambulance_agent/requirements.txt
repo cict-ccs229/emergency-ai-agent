@@ -1,0 +1,9 @@
+google-generativeai
+geopy
+requests
+python-dotenv
+aiohttp
+asyncio
+typing-extensions
+adk
+
