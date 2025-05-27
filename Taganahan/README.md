@@ -42,10 +42,14 @@ I am the **Roxas City Emergency AI Assistant (RCERT AI)**, a specialized virtual
 
 ## Hospitals Covered (Roxas City Areas)
 
-* **Baybay**
+* **Arnaldo Blvd**
 
   * Arnaldo Blvd: Roxas Memorial Provincial Hospital
-  * Roxas Ave: Capiz Emmanuel Hospital (far from Baybay)
+ 
+
+* **Roxas Ave**
+   
+  * Capiz Emmanuel Hospital 
 
 * **Lawaan**
 
