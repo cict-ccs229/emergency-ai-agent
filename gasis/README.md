@@ -2,7 +2,7 @@
 
 This project is an AI-powered emergency response system built using the **Google AI Development Kit (ADK)**. It simulates real-time assistance for users in the Philippines — helping them confirm emergencies, detect panic, find nearby hospitals, and attempt ambulance dispatch.
 
-> 🎥 Video Explanation:  
+> 🎥 Video Explanation:  https://youtu.be/PeFseokSVKQ
 > 🏥 Target area: **Iloilo City, Philippines**  
 > ⚙️ Built with: `Python`, `Google ADK`, `dotenv`, `custom tools`
 
