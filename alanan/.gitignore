@@ -1,0 +1,13 @@
+# Ignore .env files in any folder
+**/.env
+
+# Or just the one in alanan
+alanan/.env
+
+# Ignore Python bytecode and cache
+__pycache__/
+*.py[cod]
+
+# Ignore OS junk
+.DS_Store
+Thumbs.db
