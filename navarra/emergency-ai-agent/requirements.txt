@@ -1,9 +1,3 @@
 agent
 google-adk
-pyttsx3
 google-agents
-# google-generativeai
-SpeechRecognition
-pyaudio
-pipwin
-google-generativeai[adk]
