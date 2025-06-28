@@ -1,8 +1,9 @@
 from google.adk.agents import Agent
 from .prompt import ROOT_AGENT_INSTRUCTION
 from google.adk.tools.google_search_tool import google_search
-from .search import Search_Agent_Grounding
-from .call_agent import YoutubeAgent
+from .search import Hospital_Search_Agent as Search_Agent_Grounding
+from .call_agent import call_agent_tool as Call_Agent_Tool
+from .gps_location import GetCurrentLocationTool
 
 AGENT_MODEL = "gemini-2.5-flash-preview-05-20"
 
@@ -18,5 +19,5 @@ root_agent = Agent(
         """
     ),
     instruction = ROOT_AGENT_INSTRUCTION,
-    tools = [Search_Agent_Grounding],
+    tools = [Search_Agent_Grounding, Call_Agent_Tool, GetCurrentLocationTool],
 )
