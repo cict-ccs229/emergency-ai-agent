@@ -1,0 +1,12 @@
+flask
+flask-cors
+fastapi
+uvicorn
+google-genai
+google-adk
+google-api-python-client
+litellm
+python-dotenv
+streamlit
+jq
+grep
