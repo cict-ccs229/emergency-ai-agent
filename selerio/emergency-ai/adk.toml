@@ -1,0 +1,3 @@
+[[agents]]
+name = "iloilo_emergency_ai"
+entrypoint = "agent:root_agent"
